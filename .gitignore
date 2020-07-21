@@ -1,0 +1,4 @@
+*data.json
+*__pycache__*
+*.dir-locals.el*
+*plots/*
