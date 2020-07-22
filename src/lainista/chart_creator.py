@@ -28,8 +28,11 @@ def create_and_save_chart(data, x_tick_interval, file_name) -> None:
 
 # takes the data and returns a list from given indices
 def get_chart_data_with_indices(data, start, end) -> list:
-    [dates] = (list(map(lambda x: x["y"], data))[start:end],)
-    [values] = (list(map(lambda x: x["a"], data))[start:end],)
+    dates = [x["y"] for x in data][start:end]
+    values = [x["a"] for x in data][start:end]
+
+    #[dates] = (list(map(lambda x: x["y"], data))[start:end],)
+    #[values] = (list(map(lambda x: x["a"], data))[start:end],)
 
     return {"dates": dates, "values": values}
 
@@ -47,21 +50,51 @@ def get_and_plot_reddit_chart_data() -> None:
     create_and_save_chart(weekly_chart_data, 1, "reddit_weekly_chart.png")
     create_and_save_chart(monthly_chart_data, 2, "reddit_monthly_chart.png")
     create_and_save_chart(yearly_chart_data, 20, "reddit_yearly_chart.png")
-    create_and_save_chart(entire_timeline_chart_data, 100, "reddit_entire_chart.png")
+    create_and_save_chart(entire_timeline_chart_data, 200, "reddit_entire_chart.png")
 
 # get data from google and plot it
 def get_and_plot_google_chart_data() -> None:
     google_chart_data = google_main()[1]["chart_data"]
 
-    daily_chart_data = google_chart_data["today"]
-    weekly_chart_data = google_chart_data["week"]
-    monthly_chart_data = google_chart_data["month"]
-    yearly_chart_data = google_chart_data["year"]
+    import pdb; pdb.set_trace()
+    create_and_save_chart(google_chart_data["today"][0][""], 20, "daily_google_chart.png")
+    create_and_save_chart(google_chart_data["today"][1]["images"], 20, "daily_google_images_chart.png")
+    create_and_save_chart(google_chart_data["today"][2]["news"], 20, "daily_google_news_chart.png")
+    create_and_save_chart(google_chart_data["today"][3]["youtube"], 20, "daily_google_youtube_chart.png")
+    create_and_save_chart(google_chart_data["today"][4]["news"], 20, "daily_google_news_chart.png")
 
-    create_and_save_chart(daily_chart_data, 1, "google_daily_chart.png")
-    create_and_save_chart(weekly_chart_data, 1, "google_weekly_chart.png")
-    create_and_save_chart(monthly_chart_data, 2, "google_monthly_chart.png")
-    create_and_save_chart(yearly_chart_data, 20, "google_yearly_chart.png")
+    create_and_save_chart(google_chart_data["week"][0][""], 20, "weekly_google_chart.png")
+    create_and_save_chart(google_chart_data["week"][1]["images"], 20, "weekly_google_images_chart.png")
+    create_and_save_chart(google_chart_data["week"][2]["news"], 20, "weekly_google_news_chart.png")
+    create_and_save_chart(google_chart_data["week"][3]["youtube"], 20, "weekly_google_youtube_chart.png")
+    create_and_save_chart(google_chart_data["week"][4]["news"], 20, "weekly_google_news_chart.png")
+
+
+    daily_google_data = google_chart_data["today"][0]["''"]
+    daily_images_data = google_chart_data["today"]["images"]
+    daily_news_data = google_chart_data["today"]["news"]
+    daily_youtube_data = google_chart_data["today"]["youtube"]
+    daily_froogle_data = google_chart_data["today"]["froogle"]
+
+    weekly_google_data = google_chart_data["week"]["''"]
+    weekly_images_data = google_chart_data["week"]["images"]
+    weekly_news_data = google_chart_data["week"]["news"]
+    weekly_youtube_data = google_chart_data["week"]["youtube"]
+    weekly_froogle_data = google_chart_data["week"]["froogle"]
+
+    monthly_google_data = google_chart_data["month"]["''"]
+    monthly_images_data = google_chart_data["month"]["images"]
+    monthly_news_data = google_chart_data["month"]["news"]
+    monthly_youtube_data = google_chart_data["month"]["youtube"]
+    monthly_froogle_data = google_chart_data["month"]["froogle"]
+
+
+    yearly_google_data = google_chart_data["year"]["''"]
+    yearly_images_data = google_chart_data["year"]["images"]
+    yearly_news_data = google_chart_data["year"]["news"]
+    yearly_youtube_data = google_chart_data["year"]["youtube"]
+    yearly_froogle_data = google_chart_data["year"]["froogle"]
+
 
 
 def main():

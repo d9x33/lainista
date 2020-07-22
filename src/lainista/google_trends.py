@@ -26,11 +26,20 @@ def pytrends_get_chart_data(kw_list, tf, gprops) -> list:
         )
     )
 
-    # FUCK. THIS.
-    values = list(map(sum, zip(*list(map(lambda x: x["values"], pytrends_data)))))
-    dates = list(map(lambda x: x.strftime("%d-%m-%Y"), pytrends_data[0]["dates"]))
+    values = [x["values"] for x in pytrends_data]
+    unformatted_dates = [x["dates"] for x in pytrends_data]
+    print([[x.strftime("%d-%m-%Y")]  for x in unformatted_dates])
 
-    return {"dates": dates, "values": values}
+    final_data = [
+        {x: {"dates": pytrends_data[i]["dates"], "values": pytrends_data[i]["values"]}}
+        for i, x in enumerate(gprops)
+    ]
+    # values = list(map(sum, zip(*list(map(lambda x: x["values"], pytrends_data)))))
+    # dates = list(map(lambda x: x.strftime("%d-%m-%Y"), pytrends_data[0]["dates"]))
+
+    # return {"dates": dates, "values": values}
+   
+    return final_data
 
 
 # make pytrends request, returns a pair sum of first and second half
@@ -57,8 +66,8 @@ def pytrends_get_data(kw_list, gprops, tf) -> list:
         )
     )
 
-    final_sum_of_1st_half = sum(map(lambda x: x[0], pytrends_data))
-    final_sum_of_2nd_half = sum(map(lambda x: x[1], pytrends_data))
+    final_sum_of_1st_half = sum([x[0] for x in pytrends_data])
+    final_sum_of_2nd_half = sum(x[1] for x in pytrends_data)
 
     return [final_sum_of_1st_half, final_sum_of_2nd_half]
 
@@ -80,15 +89,15 @@ def analyze_data(daily, weekly, monthly, yearly) -> dict:
         map(check_mood_and_percentage_change, [daily, weekly, monthly, yearly])
     )
 
-    mood_today, mood_week, mood_month, mood_year = list(
-        map(lambda x: x["current_mood"], checked_data)
-    )
+    mood_today, mood_week, mood_month, mood_year = [
+        x["current_mood"] for x in checked_data
+    ]
     (
         percentage_change_today,
         percentage_change_week,
         percentage_change_month,
         percentage_change_year,
-    ) = list(map(lambda x: x["percentage_change"], checked_data))
+    ) = [x["percentage_change"] for x in checked_data]
 
     return {
         "mood": {

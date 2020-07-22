@@ -48,8 +48,8 @@ def get_daily(data) -> dict:
 # -30 as start and -15 as end would return the comparison from the last month
 def get_with_indices(data, start, end) -> dict:
     first_half, second_half = (
-        sum(list(map(lambda x: x["a"], data))[start:end]),
-        sum(list(map(lambda x: x["a"], data))[end:]),
+        sum([x["a"] for x in data][start:end]),
+        sum([x["a"] for x in data][end:]),
     )
 
     return mood_and_percentage_change_from_first_and_second(first_half, second_half)
