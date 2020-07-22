@@ -26,19 +26,17 @@ def pytrends_get_chart_data(kw_list, tf, gprops) -> list:
         )
     )
 
-    values = [x["values"] for x in pytrends_data]
     unformatted_dates = [x["dates"] for x in pytrends_data]
-    print([[x.strftime("%d-%m-%Y")]  for x in unformatted_dates])
+    # convert Timestamp types to d-m-Y format
+    formatted_dates = list(
+        map(lambda x: [y.strftime("%d-%m-%Y") for y in x], unformatted_dates)
+    )
 
     final_data = [
-        {x: {"dates": pytrends_data[i]["dates"], "values": pytrends_data[i]["values"]}}
+        {x: {"dates": formatted_dates[i], "values": pytrends_data[i]["values"]}}
         for i, x in enumerate(gprops)
     ]
-    # values = list(map(sum, zip(*list(map(lambda x: x["values"], pytrends_data)))))
-    # dates = list(map(lambda x: x.strftime("%d-%m-%Y"), pytrends_data[0]["dates"]))
 
-    # return {"dates": dates, "values": values}
-   
     return final_data
 
 
