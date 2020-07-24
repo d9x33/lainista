@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body,
+html {
+  height: 100%;
+  width: 100%;
+  background: #000;
+}
+html {
+  font-size: 62.5%;
+}
+.wallpaper {
+  border-bottom: 1px solid white;
+  height: 75rem;
+  position: relative;
+  background: url("../img/bg.png");
+  background-size: cover;
+  background-position: bottom;
+
+  img {
+    width: 40rem;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-60%);
+  }
+  h1 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 3px 6px #000, 0px -1px #000, 0px 1px #000, -1px 0px #000,
+      1px 0px #000, -1px -1px #000, 1px 1px #000, -1px 1px #000, 1px -1px #000;
+    color: white;
+    font-size: 15rem;
+  }
+}
+
+.mood {
+  border: 1px solid white;
+  margin: 2rem;
+  padding: 2rem;
+  color: white;
+  font-size: 3rem;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.bottom {
+  background: #000;
+  height: 100%;
+  border: 1px solid white;
+  display: flex;
+  color: white;
+
+  &__google {
+    flex: 1;
+    text-align: center;
+  }
+  &__reddit {
+    flex: 1;
+    text-align: center;
+  }
+
+  &__header {
+    font-size: 10rem;
+  }
+}
+
+.yellow {
+  color: yellow;
+}
+
+.positive {
+  color: lime;
+}
+
+.negative {
+  color: red;
+}

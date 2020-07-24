@@ -2,6 +2,10 @@ from pytrends.request import TrendReq
 from itertools import repeat
 
 # makes a request and returns dates and values for a specific gprop
+KW_LIST = ["lain", "sel", "serial experiments lain"]
+GPROPS = ["", "images", "news", "youtube", "froogle"]
+
+
 def pytrends_make_req_chart(kw_list, tf, gprop) -> dict:
     pytrends = TrendReq(hl="en-US", tz=360)
     pytrends.build_payload(kw_list, cat=0, timeframe=tf, geo="", gprop=gprop)
@@ -33,7 +37,8 @@ def pytrends_get_chart_data(kw_list, tf, gprops) -> list:
     )
 
     final_data = [
-        {x: {"dates": formatted_dates[i], "values": pytrends_data[i]["values"]}}
+        {x: {"dates": formatted_dates[i],
+             "values": pytrends_data[i]["values"]}}
         for i, x in enumerate(gprops)
     ]
 
@@ -47,8 +52,9 @@ def pytrends_make_req(kw_list, tf, gprop) -> list:
 
     iot = pytrends.interest_over_time()
 
-    sum_of_1st_half = iot.iloc[: int(len(iot) / 2)].sum(numeric_only=True).sum()
-    sum_of_2nd_half = iot.iloc[int(len(iot) / 2) :].sum(numeric_only=True).sum()
+    sum_of_1st_half = iot.iloc[: int(
+        len(iot) / 2)].sum(numeric_only=True).sum()
+    sum_of_2nd_half = iot.iloc[int(len(iot) / 2):].sum(numeric_only=True).sum()
 
     return [sum_of_1st_half, sum_of_2nd_half]
 
@@ -114,9 +120,6 @@ def analyze_data(daily, weekly, monthly, yearly) -> dict:
 
 
 def main():
-    KW_LIST = ["lain", "sel", "serial experiments lain"]
-    GPROPS = ["", "images", "news", "youtube", "froogle"]
-
     daily_data = pytrends_get_data(KW_LIST, GPROPS, "now 1-d")
     weekly_data = pytrends_get_data(KW_LIST, GPROPS, "now 7-d")
     monthly_data = pytrends_get_data(KW_LIST, GPROPS, "today 1-m")
@@ -128,7 +131,8 @@ def main():
     monthly_chart_data = pytrends_get_chart_data(KW_LIST, "today 1-m", GPROPS)
     yearly_chart_data = pytrends_get_chart_data(KW_LIST, "today 12-m", GPROPS)
 
-    analyzed_data = analyze_data(daily_data, weekly_data, monthly_data, yearly_data)
+    analyzed_data = analyze_data(
+        daily_data, weekly_data, monthly_data, yearly_data)
 
     return [
         analyzed_data,

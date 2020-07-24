@@ -1,4 +1,7 @@
 *data.json
 *__pycache__*
 *.dir-locals.el*
-*plots/*
+*chart.png
+*.vscode*
+*.css*
+*chart.png*
