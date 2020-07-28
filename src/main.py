@@ -1,6 +1,7 @@
 from lainista.google_scraper import main as google_main
 from lainista.plotter import main as plotter_main
 from lainista.reddit_scraper import main as reddit_main
+from rmwrapper import RedditMetricsWrapper
 import json
 import os
 
@@ -15,6 +16,7 @@ def get_data() -> dict:
     return {"google": google_data, "reddit": reddit_data}
 
 
+
 def save_google_data_as_json(data) -> None:
     with open("{}/{}".format(GOOGLE_JSON_DIR, "google_data.json"), "w+") as f:
         json.dump(data["google"][0], f)
@@ -22,8 +24,13 @@ def save_google_data_as_json(data) -> None:
 
 def save_reddit_data_as_json(data) -> None:
     with open("{}/{}".format(REDDIT_JSON_DIR, "reddit_data.json"), "w+") as f:
-        json.dump({"mood": data["reddit"]["mood"], "percentage_change": (
-            data["reddit"]["percentage_change"])}, f)
+        json.dump(
+            {
+                "mood": data["reddit"]["mood"],
+                "percentage_change": (data["reddit"]["percentage_change"]),
+            },
+            f,
+        )
 
 
 def main() -> None:

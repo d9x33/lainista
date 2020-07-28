@@ -8,7 +8,7 @@ TOTAL_SUB_REGEX = "(?<=element: 'total-subscribers',.*data: \[)(.+?)(?=\])"
 RANK_REGEX = "(?<=rankData.*\[)(.+?)(?=\])"
 
 # matches a regex inside the soup and returns it while removing whitespace
-def search_by_regex(regexp, soup) -> list:
+def search_by_regex(regexp, soup) -> str:
     return re.search(regexp, soup).group(0).replace(" ", "")
 
 

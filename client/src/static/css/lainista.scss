@@ -44,25 +44,55 @@ html {
   font-size: 3rem;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+
+  &__reddit {
+    font-size: 2rem;
+    border-left: 1px solid white;
+    flex: 1;
+  }
+
+  &__google {
+    font-size: 2rem;
+    flex: 1;
+  }
+
+  h2 {
+    margin: 4rem;
+  }
 }
 .bottom {
+  font-family: Arial, Helvetica, sans-serif;
   background: #000;
   height: 100%;
   border: 1px solid white;
   display: flex;
   color: white;
+  margin: 1rem;
+
+  img {
+    margin: 2rem;
+  }
+
+  &--plotheader {
+    font-size: 2rem;
+    color: yellow;
+  }
 
   &__google {
     flex: 1;
     text-align: center;
+    border-right: 1px solid white;
+    padding: 1rem;
   }
   &__reddit {
     flex: 1;
     text-align: center;
+    padding: 1rem;
   }
 
   &__header {
-    font-size: 10rem;
+    font-size: 7rem;
   }
 }
 
@@ -76,4 +106,12 @@ html {
 
 .negative {
   color: red;
+}
+
+#popularityheader {
+  text-align: center;
+  color: white;
+  font-size: 7rem;
+  margin: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
 }

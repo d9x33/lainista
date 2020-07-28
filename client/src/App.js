@@ -1,8 +1,8 @@
-import React from 'react';
-import Lainista from "./components/Lainista"
+import React from "react";
+import Lainista from "./components/Lainista";
 
 function App() {
-  return <Lainista />
+  return <Lainista />;
 }
 
 export default App;
