@@ -1,7 +1,6 @@
 from lainista.google_scraper import main as google_main
 from lainista.plotter import main as plotter_main
 from lainista.reddit_scraper import main as reddit_main
-from rmwrapper import RedditMetricsWrapper
 import json
 import os
 
@@ -14,7 +13,6 @@ def get_data() -> dict:
     reddit_data = reddit_main()
 
     return {"google": google_data, "reddit": reddit_data}
-
 
 
 def save_google_data_as_json(data) -> None:
@@ -42,6 +40,7 @@ def main() -> None:
 
     if not os.path.exists(GOOGLE_JSON_DIR):
         os.makedirs(GOOGLE_JSON_DIR)
+
     save_reddit_data_as_json(data)
     save_google_data_as_json(data)
 

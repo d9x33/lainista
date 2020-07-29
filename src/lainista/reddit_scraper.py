@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 import regex as re
 import json
 
-SUB_GROWTH_REGEX = "(?<=element: 'subscriber-growth',.*data: \[)(.+?)(?=\])"
 TOTAL_SUB_REGEX = "(?<=element: 'total-subscribers',.*data: \[)(.+?)(?=\])"
-RANK_REGEX = "(?<=rankData.*\[)(.+?)(?=\])"
 
 # matches a regex inside the soup and returns it while removing whitespace
 def search_by_regex(regexp, soup) -> str:
@@ -24,7 +22,8 @@ def get_script_tags(soup) -> str:
 
 # deserialize the parsed data and format it to be a proper json, returns a list type with json data
 def deserialize(parsed_data) -> list:
-    jsonized = parsed_data.replace("'", '"').replace("y", '"y"').replace("a", '"a"')
+    jsonized = parsed_data.replace("'", '"').replace(
+        "y", '"y"').replace("a", '"a"')
     return json.loads("[{}]".format(jsonized))
 
 
@@ -61,9 +60,7 @@ def main():
 
     script_tags = get_script_tags(soup)
 
-    sub_growth_data = deserialize(search_by_regex(SUB_GROWTH_REGEX, script_tags))
     total_sub_data = deserialize(search_by_regex(TOTAL_SUB_REGEX, script_tags))
-    rank_data = deserialize(search_by_regex(RANK_REGEX, script_tags))
 
     daily_data = get_daily(total_sub_data)
     weekly_data = get_with_indices(total_sub_data, -8, -4)

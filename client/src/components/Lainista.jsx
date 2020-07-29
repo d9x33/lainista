@@ -5,6 +5,8 @@ import redditData from "./data/reddit_data.json";
 import googleData from "./data/google_data.json";
 
 const Lainista = () => {
+  const pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
+
   const capitalize = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
       match.toUpperCase()
@@ -19,8 +21,47 @@ const Lainista = () => {
   };
 
   const formatImgName = (imgName) => {
-    return capitalize(
-      matchUntilFirstDot(matchAfterLastLine(imgName)).replace(/_/g, " ")
+    return pipe(
+      capitalize,
+      matchUntilFirstDot,
+      matchAfterLastLine
+    )(imgName).replace(/_/g, " ");
+  };
+
+  const displayStats = (data) => {
+    return (
+      <React.Fragment>
+        {Object.entries(data["percentage_change"]).map((element) => {
+          return (
+            <React.Fragment>
+              <h2>
+                <span className="yellow">{element[0].toUpperCase()}:</span>{" "}
+                <br />
+              </h2>
+              {element[1] > 0 ? (
+                <React.Fragment>
+                  <span className="positive"> POSITIVE </span>with a roughly{" "}
+                  <span className="positive">
+                    +
+                    {Math.round(data["percentage_change"][element[0]] * 1000) /
+                      1000}
+                  </span>{" "}
+                  percentage increase.
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <span className="negative"> NEGATIVE </span>with a roughly{" "}
+                  <span className="negative">
+                    {Math.round(data["percentage_change"][element[0]] * 1000) /
+                      1000}
+                  </span>{" "}
+                  percentage drop.
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
     );
   };
 
@@ -33,7 +74,7 @@ const Lainista = () => {
               <h2>
                 <span className="yellow">{element[0].toUpperCase()}:</span>{" "}
                 <br />
-                {element[1] === 1 ? (
+                {element[1] > 0 ? (
                   <React.Fragment>
                     <span className="positive"> POSITIVE </span>with a roughly{" "}
                     <span className="positive">
@@ -63,6 +104,24 @@ const Lainista = () => {
     );
   };
 
+  const mergeData = (obj1, obj2) => {
+    return [obj1, obj2].reduce((acc, elem) => {
+      Object.keys(elem).map((key) => {
+        Object.entries(elem[key]).map((entry) => {
+          if (acc[key]) {
+            if (acc[key][entry[0]]) acc[key][entry[0]] += entry[1];
+            else acc[key][entry[0]] = entry[1];
+          } else {
+            acc[key] = {};
+            acc[key][entry[0]] = entry[1];
+          }
+        });
+      });
+
+      return acc;
+    }, {});
+  };
+
   const importAll = (r) => {
     return r.keys().map(r);
   };
@@ -74,6 +133,10 @@ const Lainista = () => {
         <img src={lain} alt="lain" />
       </div>
       <h2 id="popularityheader">Popularity statistics</h2>
+      <div className="stats">
+        <h2>Overall stats</h2>
+        {displayStats(mergeData(redditData, googleData))}
+      </div>
       <div className="mood">
         <div className="mood__google">
           <h2>Google</h2>
